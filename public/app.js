@@ -79,6 +79,35 @@ function refresh() {
   loadHistory();
 }
 
+function setupDemoButton() {
+  const button = document.getElementById("demo-button");
+  const status = document.getElementById("demo-status");
+
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    status.textContent = "시나리오 실행 중... (앱 목록·이력이 자동으로 바뀝니다)";
+    try {
+      const res = await fetch("/api/demo/scenario", { method: "POST" });
+      if (res.status === 409) {
+        status.textContent = "이미 시나리오가 실행 중입니다.";
+        button.disabled = false;
+        return;
+      }
+      if (!res.ok) throw new Error("demo scenario failed to start");
+      const { steps, intervalMs } = await res.json();
+      const totalMs = steps * (intervalMs + 1000);
+      setTimeout(() => {
+        status.textContent = "시나리오 종료";
+        button.disabled = false;
+      }, totalMs);
+    } catch (err) {
+      console.error("데모 시나리오 실행 실패:", err);
+      status.textContent = "실행 실패";
+      button.disabled = false;
+    }
+  });
+}
+
 async function start() {
   let rescanIntervalMs = 10000;
   try {
@@ -94,4 +123,5 @@ async function start() {
   setInterval(refresh, rescanIntervalMs);
 }
 
+setupDemoButton();
 start();
