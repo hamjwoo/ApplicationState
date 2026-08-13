@@ -3,8 +3,8 @@ function renderApps(apps) {
   list.innerHTML = "";
   for (const app of apps) {
     const item = document.createElement("li");
-    const restart = app.restartOutcome ?? "";
-    item.textContent = `${app.name} — ${app.status}${restart ? ` — ${restart}` : ""}`;
+    const restart = app.restartOutcome ?? "재시작 이력 없음(정상)";
+    item.textContent = `${app.name} — ${app.status} — ${restart}`;
     list.appendChild(item);
   }
 }

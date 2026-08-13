@@ -170,7 +170,7 @@
     },
     {
       "id": "LB-110",
-      "status": "todo",
+      "status": "done",
       "priority": "검증",
       "category": "검증",
       "title": "필드 없을 때 '재시작 이력 없음(정상)' 표시",
