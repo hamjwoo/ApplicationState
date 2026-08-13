@@ -218,7 +218,7 @@
     },
     {
       "id": "LB-113",
-      "status": "todo",
+      "status": "done",
       "priority": "검증",
       "category": "검증",
       "title": "스케줄러 실행 전 승인 체크포인트 표시",
