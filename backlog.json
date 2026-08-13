@@ -41,7 +41,7 @@
     },
     {
       "id": "LB-102",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "환경",
       "title": "정적 파일 서빙 + 샘플 데이터 배치",

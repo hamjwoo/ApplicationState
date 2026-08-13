@@ -1,0 +1,58 @@
+[
+  {
+    "id": "d02f179a-8f44-4556-b669-bb0dab57925f",
+    "name": "app-1",
+    "status": "running",
+    "restartOutcome": "success"
+  },
+  {
+    "id": "0e01890f-b25c-47ee-8a99-f43aac4284cd",
+    "name": "app-2",
+    "status": "running",
+    "restartOutcome": "success"
+  },
+  {
+    "id": "2f787c07-d5ea-4fc7-a310-2799959c994a",
+    "name": "app-3",
+    "status": "running",
+    "restartOutcome": "success"
+  },
+  {
+    "id": "36fad4a9-219b-4f14-9649-f15cd882c6df",
+    "name": "app-4",
+    "status": "closed",
+    "exitType": "normal",
+    "restartOutcome": "fail"
+  },
+  {
+    "id": "a67f4ded-0f68-48eb-a46d-d473afa53af2",
+    "name": "app-5",
+    "status": "running",
+    "restartOutcome": "success"
+  },
+  {
+    "id": "3c2d3df0-edcf-44b4-9c7a-d670809f9898",
+    "name": "app-6",
+    "status": "running"
+  },
+  {
+    "id": "ffd105e2-2803-4d47-9959-99a567063410",
+    "name": "app-7",
+    "status": "running"
+  },
+  {
+    "id": "f20486d4-ff3f-41da-bc50-2bdef4d2183b",
+    "name": "app-8",
+    "status": "running"
+  },
+  {
+    "id": "76e03fb7-7200-439c-bd2e-333bf2284a0e",
+    "name": "app-9",
+    "status": "running"
+  },
+  {
+    "id": "ea08eafc-10fe-4b13-8d98-5273548ee96c",
+    "name": "app-10",
+    "status": "running"
+  }
+]
