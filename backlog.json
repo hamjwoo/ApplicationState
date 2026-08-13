@@ -106,7 +106,7 @@
     },
     {
       "id": "LB-106",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "화면",
       "title": "10초 자동 갱신",

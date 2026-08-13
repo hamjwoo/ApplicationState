@@ -16,3 +16,4 @@ async function loadApps() {
 }
 
 loadApps();
+setInterval(loadApps, 10000);
