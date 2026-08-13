@@ -122,7 +122,7 @@
     },
     {
       "id": "LB-107",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "저장",
       "title": "상태 변화 감지 + history.json 기록 스케줄러",
