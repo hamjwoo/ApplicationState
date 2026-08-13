@@ -6,12 +6,19 @@ import { readFile, writeFile } from "node:fs/promises";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = path.join(__dirname, "data", "state.json");
 const HISTORY_PATH = path.join(__dirname, "data", "history.json");
-const RESCAN_INTERVAL_MS = 10000;
+const DEFAULT_RESCAN_INTERVAL_MS = 10000;
+const parsedInterval = Number(process.env.RESCAN_INTERVAL_MS);
+const RESCAN_INTERVAL_MS =
+  Number.isInteger(parsedInterval) && parsedInterval > 0 ? parsedInterval : DEFAULT_RESCAN_INTERVAL_MS;
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/api/config", (req, res) => {
+  res.json({ rescanIntervalMs: RESCAN_INTERVAL_MS });
+});
 
 app.get("/api/status", async (req, res) => {
   try {
@@ -79,5 +86,5 @@ async function startRescanScheduler() {
 app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`);
   await startRescanScheduler();
-  console.log(`10초 재탐색 스케줄러 시작 (history.json 기록)`);
+  console.log(`${RESCAN_INTERVAL_MS}ms 재탐색 스케줄러 시작 (history.json 기록)`);
 });

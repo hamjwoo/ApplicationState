@@ -248,7 +248,7 @@
     },
     {
       "id": "LB-115",
-      "status": "todo",
+      "status": "done",
       "priority": "나중",
       "category": "저장",
       "title": "폴링 주기 설정 가능하게 만들기",

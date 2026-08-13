@@ -49,5 +49,19 @@ function refresh() {
   loadHistory();
 }
 
-refresh();
-setInterval(refresh, 10000);
+async function start() {
+  let rescanIntervalMs = 10000;
+  try {
+    const res = await fetch("/api/config");
+    if (res.ok) {
+      const config = await res.json();
+      rescanIntervalMs = config.rescanIntervalMs;
+    }
+  } catch (err) {
+    console.error("설정을 불러오지 못했습니다, 기본값(10초) 사용:", err);
+  }
+  refresh();
+  setInterval(refresh, rescanIntervalMs);
+}
+
+start();
