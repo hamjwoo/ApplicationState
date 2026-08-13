@@ -57,7 +57,7 @@
     },
     {
       "id": "LB-103",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "화면",
       "title": "목록 화면 뼈대 + mock 데이터 렌더링",
@@ -73,7 +73,7 @@
     },
     {
       "id": "LB-104",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "저장",
       "title": "GET /api/status 구현",
@@ -89,7 +89,7 @@
     },
     {
       "id": "LB-105",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "화면",
       "title": "화면을 mock에서 실제 API로 교체",
