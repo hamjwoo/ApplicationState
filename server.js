@@ -22,6 +22,15 @@ app.get("/api/status", async (req, res) => {
   }
 });
 
+app.get("/api/history", async (req, res) => {
+  try {
+    const raw = await readFile(HISTORY_PATH, "utf-8");
+    res.json(JSON.parse(raw));
+  } catch (err) {
+    res.status(500).json({ error: "history.json을 읽을 수 없습니다" });
+  }
+});
+
 let lastKnownStatusById = new Map();
 
 async function detectStatusChanges() {
