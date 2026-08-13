@@ -202,7 +202,7 @@
     },
     {
       "id": "LB-112",
-      "status": "todo",
+      "status": "done",
       "priority": "검증",
       "category": "검증",
       "title": "잘못된 state.json 방어",

@@ -13,9 +13,14 @@ function renderApps(apps) {
 }
 
 async function loadApps() {
-  const res = await fetch("/api/status");
-  const apps = await res.json();
-  renderApps(apps);
+  try {
+    const res = await fetch("/api/status");
+    if (!res.ok) throw new Error("status fetch failed");
+    const apps = await res.json();
+    renderApps(apps);
+  } catch (err) {
+    console.error("상태를 불러오지 못했습니다:", err);
+  }
 }
 
 function renderHistory(entries) {
@@ -29,9 +34,14 @@ function renderHistory(entries) {
 }
 
 async function loadHistory() {
-  const res = await fetch("/api/history");
-  const entries = await res.json();
-  renderHistory(entries);
+  try {
+    const res = await fetch("/api/history");
+    if (!res.ok) throw new Error("history fetch failed");
+    const entries = await res.json();
+    renderHistory(entries);
+  } catch (err) {
+    console.error("이력을 불러오지 못했습니다:", err);
+  }
 }
 
 function refresh() {
