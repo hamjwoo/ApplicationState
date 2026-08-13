@@ -15,5 +15,26 @@ async function loadApps() {
   renderApps(apps);
 }
 
-loadApps();
-setInterval(loadApps, 10000);
+function renderHistory(entries) {
+  const list = document.getElementById("history-list");
+  list.innerHTML = "";
+  for (const entry of entries) {
+    const item = document.createElement("li");
+    item.textContent = `${entry.timestamp} — ${entry.name}: ${entry.fromStatus} → ${entry.toStatus}`;
+    list.appendChild(item);
+  }
+}
+
+async function loadHistory() {
+  const res = await fetch("/api/history");
+  const entries = await res.json();
+  renderHistory(entries);
+}
+
+function refresh() {
+  loadApps();
+  loadHistory();
+}
+
+refresh();
+setInterval(refresh, 10000);

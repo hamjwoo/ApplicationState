@@ -154,7 +154,7 @@
     },
     {
       "id": "LB-109",
-      "status": "todo",
+      "status": "done",
       "priority": "핵심",
       "category": "화면",
       "title": "이력 화면 영역 추가",
