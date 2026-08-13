@@ -2,13 +2,27 @@ function renderApps(apps) {
   const list = document.getElementById("app-list");
   list.innerHTML = "";
   for (const app of apps) {
-    const item = document.createElement("li");
-    const restart = app.restartOutcome ?? "재시작 이력 없음(정상)";
-    item.textContent = `${app.name} — ${app.status} — ${restart}`;
+    const row = document.createElement("tr");
     if (app.status === "closed" && app.restartOutcome === "fail") {
-      item.classList.add("alert");
+      row.classList.add("alert");
     }
-    list.appendChild(item);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = app.name;
+
+    const statusCell = document.createElement("td");
+    const dot = document.createElement("span");
+    dot.className = `status-dot ${app.status}`;
+    statusCell.appendChild(dot);
+    statusCell.appendChild(document.createTextNode(app.status));
+
+    const restartCell = document.createElement("td");
+    restartCell.textContent = app.restartOutcome ?? "재시작 이력 없음(정상)";
+
+    row.appendChild(nameCell);
+    row.appendChild(statusCell);
+    row.appendChild(restartCell);
+    list.appendChild(row);
   }
 }
 
@@ -27,9 +41,25 @@ function renderHistory(entries) {
   const list = document.getElementById("history-list");
   list.innerHTML = "";
   for (const entry of entries) {
-    const item = document.createElement("li");
-    item.textContent = `${entry.timestamp} — ${entry.name}: ${entry.fromStatus} → ${entry.toStatus}`;
-    list.appendChild(item);
+    const row = document.createElement("tr");
+
+    const timeCell = document.createElement("td");
+    timeCell.textContent = entry.timestamp;
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = entry.name;
+
+    const fromCell = document.createElement("td");
+    fromCell.textContent = entry.fromStatus;
+
+    const toCell = document.createElement("td");
+    toCell.textContent = entry.toStatus;
+
+    row.appendChild(timeCell);
+    row.appendChild(nameCell);
+    row.appendChild(fromCell);
+    row.appendChild(toCell);
+    list.appendChild(row);
   }
 }
 

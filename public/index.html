@@ -4,7 +4,34 @@
   <meta charset="UTF-8" />
   <title>ApplicationState</title>
   <style>
-    .alert {
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 720px;
+    }
+    th, td {
+      text-align: left;
+      padding: 6px 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      color: #555;
+      font-size: 0.9em;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .status-dot.running {
+      background: #2e7d32;
+    }
+    .status-dot.closed {
+      background: #c62828;
+    }
+    tr.alert {
       color: #b00020;
       font-weight: bold;
     }
@@ -12,9 +39,28 @@
 </head>
 <body>
   <h1>ApplicationState</h1>
-  <ul id="app-list"></ul>
+  <table id="app-table">
+    <thead>
+      <tr>
+        <th>이름</th>
+        <th>상태</th>
+        <th>재시작 결과</th>
+      </tr>
+    </thead>
+    <tbody id="app-list"></tbody>
+  </table>
   <h2>이력</h2>
-  <ul id="history-list"></ul>
+  <table id="history-table">
+    <thead>
+      <tr>
+        <th>시간</th>
+        <th>이름</th>
+        <th>이전 상태</th>
+        <th>이후 상태</th>
+      </tr>
+    </thead>
+    <tbody id="history-list"></tbody>
+  </table>
   <script src="app.js"></script>
 </body>
 </html>
