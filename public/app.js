@@ -5,6 +5,9 @@ function renderApps(apps) {
     const item = document.createElement("li");
     const restart = app.restartOutcome ?? "재시작 이력 없음(정상)";
     item.textContent = `${app.name} — ${app.status} — ${restart}`;
+    if (app.status === "closed" && app.restartOutcome === "fail") {
+      item.classList.add("alert");
+    }
     list.appendChild(item);
   }
 }

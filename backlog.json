@@ -186,7 +186,7 @@
     },
     {
       "id": "LB-111",
-      "status": "todo",
+      "status": "done",
       "priority": "검증",
       "category": "검증",
       "title": "closed+fail 앱 강조 표시",
