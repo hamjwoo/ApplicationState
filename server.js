@@ -1,7 +1,7 @@
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, rename } from "node:fs/promises";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = path.join(__dirname, "data", "state.json");
@@ -39,40 +39,56 @@ app.get("/api/history", async (req, res) => {
 });
 
 let lastKnownStatusById = new Map();
+let isScanning = false;
+
+async function writeFileAtomic(filePath, content) {
+  const tmpPath = `${filePath}.tmp`;
+  await writeFile(tmpPath, content);
+  await rename(tmpPath, filePath);
+}
 
 async function detectStatusChanges() {
-  let apps;
-  try {
-    apps = JSON.parse(await readFile(STATE_PATH, "utf-8"));
-  } catch (err) {
-    console.error("state.json 재탐색 실패:", err.message);
+  if (isScanning) {
+    console.warn("이전 재탐색이 아직 끝나지 않아 이번 주기는 건너뜁니다");
     return;
   }
-
-  const changes = [];
-  for (const app of apps) {
-    const previousStatus = lastKnownStatusById.get(app.id);
-    if (previousStatus !== undefined && previousStatus !== app.status) {
-      changes.push({
-        id: app.id,
-        name: app.name,
-        fromStatus: previousStatus,
-        toStatus: app.status,
-        timestamp: new Date().toISOString(),
-      });
-    }
-    lastKnownStatusById.set(app.id, app.status);
-  }
-
-  if (changes.length === 0) return;
-
-  let history = [];
+  isScanning = true;
   try {
-    history = JSON.parse(await readFile(HISTORY_PATH, "utf-8"));
-  } catch (err) {
-    history = [];
+    let apps;
+    try {
+      apps = JSON.parse(await readFile(STATE_PATH, "utf-8"));
+    } catch (err) {
+      console.error("state.json 재탐색 실패:", err.message);
+      return;
+    }
+
+    const changes = [];
+    for (const app of apps) {
+      const previousStatus = lastKnownStatusById.get(app.id);
+      if (previousStatus !== undefined && previousStatus !== app.status) {
+        changes.push({
+          id: app.id,
+          name: app.name,
+          fromStatus: previousStatus,
+          toStatus: app.status,
+          timestamp: new Date().toISOString(),
+        });
+      }
+      lastKnownStatusById.set(app.id, app.status);
+    }
+
+    if (changes.length === 0) return;
+
+    let history = [];
+    try {
+      history = JSON.parse(await readFile(HISTORY_PATH, "utf-8"));
+    } catch (err) {
+      history = [];
+    }
+    await writeFileAtomic(HISTORY_PATH, JSON.stringify([...history, ...changes], null, 2));
+  } finally {
+    isScanning = false;
   }
-  await writeFile(HISTORY_PATH, JSON.stringify([...history, ...changes], null, 2));
 }
 
 async function startRescanScheduler() {

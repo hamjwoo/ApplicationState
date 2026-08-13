@@ -264,7 +264,7 @@
     },
     {
       "id": "LB-116",
-      "status": "todo",
+      "status": "done",
       "priority": "나중",
       "category": "저장",
       "title": "동시 쓰기/파일 손상 방어 강화",
