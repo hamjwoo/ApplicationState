@@ -17,7 +17,7 @@ function renderApps(apps) {
     statusCell.appendChild(document.createTextNode(app.status));
 
     const restartCell = document.createElement("td");
-    restartCell.textContent = app.restartOutcome ?? "재시작 이력 없음(정상)";
+    restartCell.textContent = app.restartOutcome ?? "";
 
     row.appendChild(nameCell);
     row.appendChild(statusCell);
@@ -44,7 +44,9 @@ function renderHistory(entries) {
     const row = document.createElement("tr");
 
     const timeCell = document.createElement("td");
-    timeCell.textContent = entry.timestamp;
+    timeCell.textContent = new Date(entry.timestamp).toLocaleString("ko-KR", {
+      timeZone: "Asia/Seoul",
+    });
 
     const nameCell = document.createElement("td");
     nameCell.textContent = entry.name;

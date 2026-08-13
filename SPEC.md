@@ -16,7 +16,7 @@
 - `name`: string — 앱 이름
 - `status`: `"running"` | `"closed"`
 - `exitType`: string, optional — `status`가 `"closed"`일 때만 존재 (예: `"normal"`)
-- `restartOutcome`: `"success"` | `"fail"`, optional — 없으면 화면에 "재시작 이력 없음(정상)"으로 표시
+- `restartOutcome`: `"success"` | `"fail"`, optional — 없으면 화면의 "비고" 칸을 빈칸으로 표시
 
 ### 이력 항목 — `data/history.json` (배열)
 - `id`: string — 대상 앱의 id
