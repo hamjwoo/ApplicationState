@@ -8,6 +8,7 @@
 2. 화면은 새로고침 없이 10초마다 자동으로 `/api/status`를 다시 호출해 목록을 갱신한다.
 3. 화면 안에 "이력" 영역이 있어 `/api/history`를 호출해, 지금까지 상태가 바뀐 기록을 시간 순으로 보여준다.
 4. 클릭이나 입력으로 조작하는 기능은 없다 — 읽기 전용 대시보드다 (단, 시연용 "데모 시나리오 실행" 버튼은 예외 — `data/state.json`을 스크립트로 순차 변경해 재탐색·이력 기능을 눈으로 보여주기 위한 용도).
+5. 재탐색 중 어떤 앱이 `"closed"`로 바뀐 것을 감지하면 Gmail로 알림 메일을 보낸다 (`.env`에 `GMAIL_USER`·`GMAIL_APP_PASSWORD`가 없으면 메일 발송 없이 나머지 기능은 그대로 동작한다).
 
 ## 데이터 구조
 
@@ -16,7 +17,8 @@
 - `name`: string — 앱 이름
 - `status`: `"running"` | `"closed"`
 - `exitType`: string, optional — `status`가 `"closed"`일 때만 존재 (예: `"normal"`)
-- `restartOutcome`: `"success"` | `"fail"`, optional — 없으면 화면의 "비고" 칸을 빈칸으로 표시
+- `restartOutcome`: `"success"` | `"fail"`, optional — 없으면 재시작 결과 없음
+- `startedAt`: string (ISO 8601) — 앱이 마지막으로 실행(시작)된 시각, 화면의 "비고" 칸에 시분초까지 표시하고 `status`에 따라 "실행됨"(running) 또는 "종료됨"(closed) 접미사를 붙임
 
 ### 이력 항목 — `data/history.json` (배열)
 - `id`: string — 대상 앱의 id
@@ -32,6 +34,7 @@
 - 이력은 파일(JSON)에 저장한다 — 별도 데이터베이스는 쓰지 않는다.
 - 백엔드는 Node.js + Express, 프론트엔드는 순수 HTML/CSS/JS를 쓴다 (프레임워크·빌드 도구 없음).
 - 재탐색 스케줄러는 실제로 켜기 전에 사용자 승인을 받는다 (주기 값과 무관).
+- Gmail 계정·앱 비밀번호 등 메일 발송 자격증명은 `.env`에만 두고 git에 커밋하지 않는다 (`.env.example`에 필요한 키 목록만 남긴다).
 
 ## 완료 조건 (브라우저에서 확인 가능한 문장)
 1. 브라우저에서 페이지를 열면 `data/state.json`에 있는 앱 개수와 동일한 개수의 항목이 화면에 나타난다.

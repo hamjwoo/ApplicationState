@@ -2,6 +2,13 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { readFile, writeFile, rename } from "node:fs/promises";
+import nodemailer from "nodemailer";
+
+try {
+  process.loadEnvFile();
+} catch {
+  console.warn(".env 파일이 없어 메일 알림 없이 실행합니다 (.env.example 참고)");
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = path.join(__dirname, "data", "state.json");
@@ -38,6 +45,31 @@ app.get("/api/history", async (req, res) => {
   }
 });
 
+const mailTransporter =
+  process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD
+    ? nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD,
+        },
+      })
+    : null;
+
+async function notifyClosed(change) {
+  if (!mailTransporter) return;
+  try {
+    await mailTransporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: process.env.MAIL_TO || process.env.GMAIL_USER,
+      subject: `[ApplicationState] ${change.name} 종료됨`,
+      text: `${change.name} 상태가 ${change.fromStatus} -> ${change.toStatus}로 바뀌었습니다.\n시각: ${change.timestamp}`,
+    });
+  } catch (err) {
+    console.error("종료 알림 메일 발송 실패:", err.message);
+  }
+}
+
 let lastKnownStatusById = new Map();
 let isScanning = false;
 
@@ -57,6 +89,7 @@ async function patchAppByName(name, patch) {
   app.status = patch.status;
   if (patch.exitType !== undefined) app.exitType = patch.exitType;
   if (patch.restartOutcome !== undefined) app.restartOutcome = patch.restartOutcome;
+  if (patch.status === "running") app.startedAt = new Date().toISOString();
 
   await writeFileAtomic(STATE_PATH, JSON.stringify(apps, null, 2));
 }
@@ -128,6 +161,10 @@ async function detectStatusChanges() {
     }
 
     if (changes.length === 0) return;
+
+    for (const change of changes) {
+      if (change.toStatus === "closed") notifyClosed(change);
+    }
 
     let history = [];
     try {

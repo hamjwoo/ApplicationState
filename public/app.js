@@ -3,7 +3,7 @@ function renderApps(apps) {
   list.innerHTML = "";
   for (const app of apps) {
     const row = document.createElement("tr");
-    if (app.status === "closed" && app.restartOutcome === "fail") {
+    if (app.status === "closed") {
       row.classList.add("alert");
     }
 
@@ -16,12 +16,20 @@ function renderApps(apps) {
     statusCell.appendChild(dot);
     statusCell.appendChild(document.createTextNode(app.status));
 
-    const restartCell = document.createElement("td");
-    restartCell.textContent = app.restartOutcome ?? "";
+    const startedAtCell = document.createElement("td");
+    if (app.startedAt) {
+      const formatted = new Date(app.startedAt).toLocaleString("ko-KR", {
+        timeZone: "Asia/Seoul",
+      });
+      const label = app.status === "running" ? "실행됨" : "종료됨";
+      startedAtCell.textContent = `${formatted} ${label}`;
+    } else {
+      startedAtCell.textContent = "";
+    }
 
     row.appendChild(nameCell);
     row.appendChild(statusCell);
-    row.appendChild(restartCell);
+    row.appendChild(startedAtCell);
     list.appendChild(row);
   }
 }
