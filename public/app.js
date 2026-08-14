@@ -40,7 +40,10 @@ async function loadApps() {
 function renderHistory(entries) {
   const list = document.getElementById("history-list");
   list.innerHTML = "";
-  for (const entry of entries) {
+  const sorted = [...entries].sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  );
+  for (const entry of sorted) {
     const row = document.createElement("tr");
 
     const timeCell = document.createElement("td");
@@ -110,6 +113,20 @@ function setupDemoButton() {
   });
 }
 
+function setupTabs() {
+  const buttons = document.querySelectorAll(".tab-button");
+  const panels = document.querySelectorAll(".tab-panel");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      panels.forEach((p) => p.classList.remove("active"));
+      button.classList.add("active");
+      document.getElementById(`tab-${button.dataset.tab}`).classList.add("active");
+    });
+  });
+}
+
 async function start() {
   let rescanIntervalMs = 10000;
   try {
@@ -126,4 +143,5 @@ async function start() {
 }
 
 setupDemoButton();
+setupTabs();
 start();

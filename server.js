@@ -6,7 +6,7 @@ import { readFile, writeFile, rename } from "node:fs/promises";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = path.join(__dirname, "data", "state.json");
 const HISTORY_PATH = path.join(__dirname, "data", "history.json");
-const DEFAULT_RESCAN_INTERVAL_MS = 5000;
+const DEFAULT_RESCAN_INTERVAL_MS = 3000;
 const parsedInterval = Number(process.env.RESCAN_INTERVAL_MS);
 const RESCAN_INTERVAL_MS =
   Number.isInteger(parsedInterval) && parsedInterval > 0 ? parsedInterval : DEFAULT_RESCAN_INTERVAL_MS;

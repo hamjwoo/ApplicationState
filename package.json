@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prestart": "node tools/kill-port.mjs",
     "start": "node server.js"
   },
   "dependencies": {

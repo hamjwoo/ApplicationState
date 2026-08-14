@@ -44,34 +44,67 @@
       cursor: not-allowed;
       opacity: 0.6;
     }
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+    .tab-button {
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 1em;
+      color: #555;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-button.active {
+      color: #1565c0;
+      border-bottom-color: #1565c0;
+      font-weight: bold;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
   <h1>ApplicationState</h1>
   <button id="demo-button">테스트</button>
   <div id="demo-status"></div>
-  <table id="app-table">
-    <thead>
-      <tr>
-        <th>이름</th>
-        <th>상태</th>
-        <th>비고</th>
-      </tr>
-    </thead>
-    <tbody id="app-list"></tbody>
-  </table>
-  <h2>이력</h2>
-  <table id="history-table">
-    <thead>
-      <tr>
-        <th>시간</th>
-        <th>이름</th>
-        <th>이전 상태</th>
-        <th>이후 상태</th>
-      </tr>
-    </thead>
-    <tbody id="history-list"></tbody>
-  </table>
+  <div class="tabs">
+    <button class="tab-button active" data-tab="status">상태</button>
+    <button class="tab-button" data-tab="history">이력</button>
+  </div>
+  <div id="tab-status" class="tab-panel active">
+    <table id="app-table">
+      <thead>
+        <tr>
+          <th>이름</th>
+          <th>상태</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody id="app-list"></tbody>
+    </table>
+  </div>
+  <div id="tab-history" class="tab-panel">
+    <table id="history-table">
+      <thead>
+        <tr>
+          <th>시간</th>
+          <th>이름</th>
+          <th>이전 상태</th>
+          <th>이후 상태</th>
+        </tr>
+      </thead>
+      <tbody id="history-list"></tbody>
+    </table>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
